@@ -9,17 +9,42 @@
 import UIKit
 
 class LeagueViewController: UIViewController {
+    
+    var player: Player!
 
+    @IBOutlet weak var nextBtn: BorderButton!
+    
     @IBAction func onNextTapped(_ sender: Any) {
         performSegue(withIdentifier: "skillViewControllerSegue", sender: self)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    @IBAction func onMenTapped(_ sender: Any) {
+        selectLeague(leagueType: "men")
     }
     
+    @IBAction func onWomenTapped(_ sender: Any) {
+        selectLeague(leagueType: "women")
+    }
+    
+    @IBAction func onCoedTapped(_ sender: Any) {
+        selectLeague(leagueType: "coed")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        player = Player()
+    }
+    
+    func selectLeague(leagueType: String) {
+        player.desiredLeague = leagueType
+        nextBtn.isEnabled = true
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let skillViewController = segue.destination as? SkillViewController {
+            skillViewController.player = player
+        }
+    }
 
     /*
     // MARK: - Navigation
